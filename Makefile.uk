@@ -1,0 +1,110 @@
+#  SPDX-License-Identifier: BSD-3-Clause
+#
+#  lcms Makefile.uk
+#
+#  Authors: Esteban Martinez <esteban.martinez@csuc.cat>
+#
+#  Copyright (c) 2019, Consorci de Serveis Universitaris de Catalunya (CSUC). All rights reserved.
+#
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions
+#  are met:
+#
+#  1. Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+#  2. Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+#  3. Neither the name of the copyright holder nor the names of its
+#     contributors may be used to endorse or promote products derived from
+#     this software without specific prior written permission.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+#  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+#  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+#  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+#  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+#  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+#  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+#  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+#  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+#  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+#  POSSIBILITY OF SUCH DAMAGE.
+#
+#  THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
+#
+
+################################################################################
+# Library registration
+################################################################################
+$(eval $(call addlib_s,liblcms,$(CONFIG_LIBLCMS)))
+
+################################################################################
+# Original sources
+################################################################################
+LIBLCMS_VERSION=2.9
+LIBLCMS_URL=https://raw.githubusercontent.com/python-pillow/pillow-depends/master/lcms2-$(LIBLCMS_VERSION).tar.gz
+LIBLCMS_PATCHDIR=$(LIBLCMS_BASE)/patches
+LIBLCMS_SUBDIR=lcms2-$(LIBLCMS_VERSION)
+$(eval $(call fetch,liblcms,$(LIBLCMS_URL)))
+$(eval $(call patch,liblcms,$(LIBLCMS_PATCHDIR),$(LIBLCMS_SUBDIR)))
+
+################################################################################
+# Helpers
+################################################################################
+LIBLCMS_EXTRACTED = $(LIBLCMS_ORIGIN)/$(LIBLCMS_SUBDIR)
+
+################################################################################
+# Library includes
+################################################################################
+LIBLCMS_COMMON_INCLUDES-y      += -I$(LIBLCMS_EXTRACTED)/include
+LIBLCMS_COMMON_INCLUDES-y      += -I$(LIBLCMS_EXTRACTED)/src
+
+CINCLUDES-$(CONFIG_LIBLCMS)    += $(LIBLCMS_COMMON_INCLUDES-y)
+
+LIBLCMS_CINCLUDES   += -I$(LIBLCMS_EXTRACTED)
+
+################################################################################
+# Global flags
+################################################################################
+# Suppressed flags
+LIBLCMS_SUPPRESS_FLAGS += -Wno-unused-parameter \
+	-Wno-unused-variable -Wno-unused-value -Wno-unused-function \
+	-Wno-missing-field-initializers -Wno-implicit-fallthrough \
+	-Wno-misleading-indentation -Wno-stringop-truncation \
+	-Wno-strict-aliasing
+LIBLCMS_CFLAGS-y   += $(LIBLCMS_SUPPRESS_FLAGS) \
+	-Wno-pointer-to-int-cast -Wno-int-to-pointer-cast \
+	-Wno-misleading-indentation -Wno-stringop-truncation \
+	-Wno-strict-aliasing
+
+################################################################################
+# LCMS src
+################################################################################
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmscnvrt.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmserr.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsgamma.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsgmt.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsintrp.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsio0.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsio1.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmslut.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsplugin.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmssm.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsmd5.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsmtrx.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmspack.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmswtpnt.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsxform.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmssamp.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsnamed.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmscam02.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsvirt.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmstypes.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmscgats.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsps2.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsopt.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmshalf.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmsalpha.c
+LIBLCMS_SRCS-y += $(LIBLCMS_EXTRACTED)/src/cmspcs.c
+
