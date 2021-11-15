@@ -42,7 +42,7 @@ $(eval $(call addlib_s,liblcms,$(CONFIG_LIBLCMS)))
 ################################################################################
 # Original sources
 ################################################################################
-LIBLCMS_VERSION=2.9
+LIBLCMS_VERSION=2.10
 LIBLCMS_URL=https://raw.githubusercontent.com/python-pillow/pillow-depends/master/lcms2-$(LIBLCMS_VERSION).tar.gz
 LIBLCMS_PATCHDIR=$(LIBLCMS_BASE)/patches
 LIBLCMS_SUBDIR=lcms2-$(LIBLCMS_VERSION)
