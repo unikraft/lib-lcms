@@ -1,0 +1,11 @@
+menuconfig LIBLCMS
+    bool "liblcms - Color management engine"
+    default n
+    select LIBNOLIBC if !HAVE_LIBC
+    select LIBUKDEBUG
+    select LIBUKALLOC
+    select LIBPTHREAD_EMBEDDED
+    select LIBNEWLIBC
+
+if LIBLCMS
+endif
